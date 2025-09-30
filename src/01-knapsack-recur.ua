@@ -1,0 +1,37 @@
+# Given weights and values of n items,
+# put these items in a knapsack of capacity W
+# to get the maximum total value in the knapsack.
+# In other words, given two integer arrays val[0..n-1]
+# and wt[0..n-1] which represent values and weights associated
+# with n items respectively. Also given an integer W which represents
+# knapsack capacity, find out the maximum value subset of val[]
+# such that sum of the weights of this subset is smaller than or
+# equal to W. You cannot break an item, either pick the complete
+# item, or don’t pick it (0-1 property).
+
+BaseCondition ← ⍤.±⧻
+
+# MaxValue ? WeightsValues  Capacity
+Knapsack ← |2 ⍣(
+  ⟜BaseCondition # Check if base condition has reached
+
+  ⟜⤙⍣(
+    # First branch
+    ⊙:°⊂          # take the first row
+    ⍜(⊡0|◡≥)      # compare with capacity
+    °1°⊟          # assert that it can be taken
+    ⊙-            # compute remaining capacity
+    ⊙(Knapsack :) # Recursive call on remaining capacity
+    +             # add the value with recursion result
+  )0
+
+  Knapsack ↘1 # the second branch
+
+  ↥ # take max of both the branches
+)0
+
+Weights  ← [1 3 4 5]
+Values   ← [1 4 5 7]
+WV       ← ⍜≡⇌(⇌⍆) ≡⊟ Weights Values
+Capacity ← 7
+Knapsack WV Capacity
