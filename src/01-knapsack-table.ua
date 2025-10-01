@@ -9,6 +9,8 @@ GetDependencies ← |2.2 (
     | -[1 0]         # j-1, target
     | [⊃(-1⊢|˜-⊓⊣⊢)] # j-1, target-weight
     )]
+  ≡⍜⊢◿₂ # This is optimization of 01 knapsack in which
+  # only two rows are being used
   ▽⊸≡(⊣≥0) # Keep the valid indices
 )
 
@@ -24,12 +26,17 @@ ApplyDpFunction ← |3 (
   ] # Not taking weight case
 )
 
+# ? n m
+GetAllIndices! ← (
+  ↯ ∞_2 ⊞⊂∩(⇡+₁)
+  ▽⊸≡(^) # Filter by condition
+)
+
 # Maxvalue ? WeightValues Capacity
-Knapsack ← |2 (
-  ↯:0 ⊟∩+₁⊃⧻: # Get matrix of zeroes
-  ↯∞_2 °⊡     # Get all indices
-  ▽⊸≡(>₀⊢)    # Filter by condition
-  ⊙:          # Put zero matrix at bottom
+Knapsack ← (
+  ⊃(⋅∘|⊸⧻⟜⧻)
+  ↯:0 [2 +1∘] . # Get the zero matrix
+  ⊃(GetAllIndices!(>₀⊢) : ⋅⊙⊙∘|∘)
 
   ⍢⊃(
     ↘1⊙∘
@@ -40,7 +47,8 @@ Knapsack ← |2 (
   ) # Do while some index is present
 
   # Get the last element of the matrix
-  ⊡⋅⋅⊸(-₁△)
+  ⋅⋅∘
+  ⊡⤚[:⊓(-1⧻⊢)◿₂]
 )
 
 Weights  ← [3 5 4 1]
