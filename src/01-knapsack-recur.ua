@@ -9,7 +9,7 @@
 # equal to W. You cannot break an item, either pick the complete
 # item, or don’t pick it (0-1 property).
 
-BaseCondition ← ⍤.±⧻
+BaseCondition ← ⍤0±⧻
 
 # MaxValue ? WeightsValues  Capacity
 Knapsack ← |2 ⍣(
@@ -28,10 +28,17 @@ Knapsack ← |2 ⍣(
   Knapsack ↘1 # the second branch
 
   ↥ # take max of both the branches
-)0
+)(◌◌
+) # Return value of base condition
 
-Weights  ← [1 3 4 5]
-Values   ← [1 4 5 7]
-WV       ← ⍜≡⇌(⇌⍆) ≡⊟ Weights Values
+Weights  ← [3 5 4 1]
+Values   ← [4 7 5 1]
+WV       ← ≡⊟ Weights Values
 Capacity ← 7
 Knapsack WV Capacity
+
+# 2 3
+# ⍣(
+#   ⍤ 20 0
+#   +
+# )(◌◌)
