@@ -6,14 +6,14 @@ BaseConditionTarget ← ⍤1 ≠0
 # Then if list is empty then return false
 BaseConditionList ← ⍤0 ±⧻
 
-# ? List Target
+# SubsetExists ? List Target
 SubsetSum ← |2 ⍣(
   ⊙⟜BaseConditionTarget
-  BaseConditionList .
+  ⟜BaseConditionList
 
   ⟜⤙⍣(
     ⊃(
-    | ⍤. ≥⊢ # check if can be taken or not
+    | ˙⍤ ≥⊢ # check if can be taken or not
     | ↘₁    # rest of the list
     | -⊢    # updated target
     )

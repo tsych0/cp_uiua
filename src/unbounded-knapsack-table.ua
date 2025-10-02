@@ -1,13 +1,9 @@
-# Given weights and values of n items,
-# put these items in a knapsack of capacity W
-# to get the maximum total value in the knapsack.
-# In other words, given two integer arrays val[0..n-1]
-# and wt[0..n-1] which represent values and weights associated
-# with n items respectively. Also given an integer W which represents
-# knapsack capacity, find out the maximum value subset of val[]
-# such that sum of the weights of this subset is smaller than or
-# equal to W. You cannot break an item, either pick the complete
-# item, or don’t pick it (0-1 property).
+# Given a knapsack weight W and a set of n
+# items with certain value vali and weight wti,
+# we need to calculate minimum amount that could
+# make up this quantity exactly. This is different
+# from classical Knapsack problem, here we are allowed
+# to use unlimited number of instances of an item.
 
 # Get the indices on which this state depends
 # and the value to be added on success
@@ -17,9 +13,9 @@ GetDependencies ← |2.2 (
   ⊃(⋅∘|∘|⊣) # Save value for later return
   # The three indexes that we need
   ⊃[
-  | ∘              # j, target
-  | -[1 0]         # j-1, target
-  | [⊃(-1⊢|˜-⊓⊣⊢)] # j-1, target-weight
+  | ∘            # j, target
+  | -[1 0]       # j-1, target
+  | [⊃(⊢|˜-⊓⊣⊢)] # j, target-weight
   ]
   ≡⍜⊢◿₂ # This is optimization of 01 knapsack in which
   # only two rows are being used
@@ -69,9 +65,10 @@ Knapsack ← (
   ⊣˜⊡
 )
 
-Weights  ← [3 5 4 1]
-Values   ← [4 7 5 1]
+Weights  ← [1 50]
+Values   ← [1 30]
 WV       ← ≡⊟ Weights Values
-Capacity ← 7
+Capacity ← 100
+
 WV Capacity
 Knapsack

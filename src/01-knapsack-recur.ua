@@ -12,20 +12,19 @@
 BaseCondition ← ⍤0±⧻
 
 # MaxValue ? WeightsValues  Capacity
-Knapsack ← |2 ⍣(
+KnapsackRec ← |2 ⍣(
   ⟜BaseCondition # Check if base condition has reached
 
   ⟜⤙⍣(
     # First branch
-    ⊙:°⊂          # take the first row
-    ⍜(⊡0|◡≥)      # compare with capacity
-    °1°⊟          # assert that it can be taken
-    ⊙-            # compute remaining capacity
-    ⊙(Knapsack :) # Recursive call on remaining capacity
+    ⊃(⊢|⋅∘|↘₁)    # take the first row
+    ⊃(≥⊢|⊣|-⊢)    # compare, take difference and get value
+    ˙⍤            # assert
+    ⊙˜KnapsackRec # Recursive call on remaining capacity
     +             # add the value with recursion result
   )0
 
-  Knapsack ↘1 # the second branch
+  KnapsackRec ↘1 # the second branch
 
   ↥ # take max of both the branches
 )(◌◌
@@ -35,10 +34,6 @@ Weights  ← [3 5 4 1]
 Values   ← [4 7 5 1]
 WV       ← ≡⊟ Weights Values
 Capacity ← 7
-Knapsack WV Capacity
 
-# 2 3
-# ⍣(
-#   ⍤ 20 0
-#   +
-# )(◌◌)
+WV Capacity
+KnapsackRec
