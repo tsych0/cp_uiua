@@ -9,6 +9,33 @@
 # equal to W. You cannot break an item, either pick the complete
 # item, or don’t pick it (0-1 property).
 
+BaseCondition ← ⍤0±⧻
+
+# MaxValue ? WeightsValues  Capacity
+KnapsackRec ← |2 ⍣(
+  ⟜BaseCondition # Check if base condition has reached
+
+  ⟜⤙⍣(
+    # First branch
+    ⊃(⊢|⋅∘|↘₁)    # take the first row
+    ⊃(≥⊢|⊣|-⊢)    # compare, take difference and get value
+    ˙⍤            # assert
+    ⊙˜KnapsackRec # Recursive call on remaining capacity
+    +             # add the value with recursion result
+  )0
+
+  KnapsackRec ↘1 # the second branch
+
+  ↥ # take max of both the branches
+)(◌◌
+) # Return value of base condition
+
+# ? n m
+GetAllIndices! ← (
+  ↯ ∞_2 ⊞⊂∩(⇡+₁) # this should be obvious
+  ▽⊸≡(^)         # Filter by condition provided
+)
+
 # Get the indices on which this state depends
 # and the value to be added on success
 # Indexes Value ? Index WeightValues
@@ -23,7 +50,7 @@ GetDependencies ← |2.2 (
   ]
   ≡⍜⊢◿₂ # This is optimization of 01 knapsack in which
   # only two rows are being used
-  ▽⊸≡(⊣≥0) # Keep the valid indices
+  ▽⊸≡(⊣≥₀) # Keep the valid indices
 )
 
 # Apply the dp function on the table
@@ -41,31 +68,21 @@ ApplyDpFunction ← |3 (
   ]
 )
 
-# ? n m
-GetAllIndices! ← (
-  ↯ ∞_2 ⊞⊂∩(⇡+₁) # this should be obvious
-  ▽⊸≡(^)         # Filter by condition provided
-)
-
 # Maxvalue ? WeightValues Capacity
-Knapsack ← (
+KnapsackTabular ← (
   ⊃(
   | GetAllIndices!(>₀⊢)⧻ # Get Indices
-  | ∘                    # The Items
+  | ¤∘                   # The Items
   | ˜↯0 [2 +1◌]          # Initialize matrix to zero
   | ◿₂⧻                  # save the length for future use
   )
 
-  ⍢⊃(
-    ↘1⊙∘
-  | ⊢
+  ∧(
     GetDependencies
     ApplyDpFunction
-  ) (±⧻
-  ) # Do while some index is present
+  )
 
   # Get the last element of the matrix
-  ⋅⋅∘
   ⊣˜⊡
 )
 
@@ -73,5 +90,13 @@ Weights  ← [3 5 4 1]
 Values   ← [4 7 5 1]
 WV       ← ≡⊟ Weights Values
 Capacity ← 7
+# WV Capacity
+# KnapsackTabular
+
+Weights  ← [3 5 4 1]
+Values   ← [4 7 5 1]
+WV       ← ≡⊟ Weights Values
+Capacity ← 7
+
 WV Capacity
-Knapsack
+KnapsackTabular

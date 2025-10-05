@@ -1,7 +1,7 @@
-SubsetSumTable ~ "subset-sum-table.ua"
+SubsetSumTable ~ "../knapsack/subset-sum.ua"
 # ~ "subset-sum-recur.ua" ~ SubsetSum
 
-SubsetSum ← ⊣⊣ SubsetSumTable~SubsetSum
+SubsetSum ← ⊣⊣ SubsetSumTable~SubsetSumTable
 
 # no numbers
 ⍤⤙≍ 0 SubsetSum [] 10

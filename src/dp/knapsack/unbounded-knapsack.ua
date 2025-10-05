@@ -5,6 +5,34 @@
 # from classical Knapsack problem, here we are allowed
 # to use unlimited number of instances of an item.
 
+BaseCondition ← ⍤0±⧻
+
+# MaxValue ? WeightsValues  Capacity
+Knapsack ← |2 ⍣(
+  ⟜BaseCondition # Check if base condition has reached
+
+  ⟜⤙⍩⍣(
+    # First branch
+    ⊃(⊢|⋅∘|∘)   # take the first row
+    ⊃(≥⊢|⊣|-⊢)  # compare, take difference and get value
+    ˙⍤          # assert
+    ⊙⍩˜Knapsack # Recursive call on remaining capacity
+    +           # add the value with recursion result
+  )0
+
+  Knapsack ↘1 # the second branch
+
+  ↥ # take max of both the branches
+)(◌◌
+) # Return value of base condition
+
+# Get all valid indices for matrix of shape [n m]
+# ? n m
+GetAllIndices! ← (
+  ↯ ∞_2 ⊞⊂∩(⇡+₁) # this should be obvious
+  ▽⊸≡(^)         # Filter by condition provided
+)
+
 # Get the indices on which this state depends
 # and the value to be added on success
 # Indexes Value ? Index WeightValues
@@ -37,31 +65,20 @@ ApplyDpFunction ← |3 (
   ]
 )
 
-# ? n m
-GetAllIndices! ← (
-  ↯ ∞_2 ⊞⊂∩(⇡+₁) # this should be obvious
-  ▽⊸≡(^)         # Filter by condition provided
-)
-
 # Maxvalue ? WeightValues Capacity
 Knapsack ← (
   ⊃(
   | GetAllIndices!(>₀⊢)⧻ # Get Indices
-  | ∘                    # The Items
+  | ¤∘                   # The Items
   | ˜↯0 [2 +1◌]          # Initialize matrix to zero
   | ◿₂⧻                  # save the length for future use
   )
 
-  ⍢⊃(
-    ↘1⊙∘
-  | ⊢
+  ∧(
     GetDependencies
     ApplyDpFunction
-  ) (±⧻
-  ) # Do while some index is present
+  )
 
-  # Get the last element of the matrix
-  ⋅⋅∘
   ⊣˜⊡
 )
 
@@ -70,5 +87,14 @@ Values   ← [1 30]
 WV       ← ≡⊟ Weights Values
 Capacity ← 100
 
+WV Capacity
+Knapsack
+
+Weights  ← [1 50]
+Values   ← [1 30]
+WV       ← ≡⊟ Weights Values
+Capacity ← 100
+
+# You are seeing 60 because of recursion depth limit
 WV Capacity
 Knapsack

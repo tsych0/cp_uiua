@@ -1,4 +1,4 @@
-~ "01-knapsack-recur.ua" ~ KnapsackRec
+~ "../knapsack/01-knapsack.ua" ~ KnapsackRec
 Knapsack ← KnapsackRec
 
 # no items

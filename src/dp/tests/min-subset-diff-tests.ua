@@ -1,4 +1,4 @@
-~ "min-subset-diff.ua" ~ MinSubsetDifference
+~ "../knapsack/min-subset-diff.ua" ~ MinSubsetDifference
 
 # empty list
 ⍤⤙≍ 0 MinSubsetDifference []

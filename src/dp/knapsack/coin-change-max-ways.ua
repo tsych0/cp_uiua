@@ -59,18 +59,14 @@ ApplyDpFunction ← (
 CoinChangeWaysTable ← (
   ⊃(
   | GetAllIndices!(>₀⊢)⧻
-  | ∘
+  | ¤∘
   | ⍜(⊡0_0|⋅1) ˜↯ 0 +1[⧻⊙∘]
   )
 
-  ⍢⊃(
-    ↘₁⊙∘ # restores the list and drops one index
-  | ⊢
+  ∧(
     GetDependencies
     ApplyDpFunction
-  )(±⧻)
-
-  ⋅⋅∘
+  )
 )
 
 [2 3 5] 9

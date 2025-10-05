@@ -2,7 +2,7 @@
 # given set can be partitioned into two subsets
 # such that the sum of elements in both subsets is same.
 
-~ "subset-sum-table.ua" ~ SubsetSum
+~ "subset-sum.ua" ~ SubsetSumTable
 
 HalfSum ← (
   /+ # the sum
@@ -14,8 +14,8 @@ HalfSum ← (
 # ? List
 EqualSumPartition ← ⍣(
   ⟜HalfSum
-  SubsetSum
-  ⊣⊣
+  SubsetSumTable # call subset sum on the arguments
+  ⊣⊣             # get the last element of the table
 )0
 
 EqualSumPartition [1 2 3]

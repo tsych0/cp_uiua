@@ -1,4 +1,4 @@
-~ "equal-sum-partition.ua" ~ EqualSumPartition
+~ "../knapsack/equal-sum-partition.ua" ~ EqualSumPartition
 
 # empty list
 ⍤⤙≍ 1 EqualSumPartition []
