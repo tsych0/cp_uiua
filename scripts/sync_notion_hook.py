@@ -9,26 +9,12 @@ from dotenv import load_dotenv
 load_dotenv()
 notion = Client(auth=os.getenv("NOTION_TOKEN"))
 DATABASE_ID = os.getenv("NOTION_DATABASE_ID")
-GITHUB_REPO = os.getenv("GITHUB_REPOSITORY", "username/repo")
+# GITHUB_REPO = os.getenv("GITHUB_REPOSITORY", "username/repo")
 SOLUTIONS_PATH = os.getenv("SOLUTIONS_PATH", "solutions")
 
 def extract_problem_id(filename):
     return filename.split("-")[1]
-    """Extract problem ID from filename."""
-    basename = os.path.basename(filename)
-    
-    # Pattern 1: starts with 4 digits
-    match = re.match(r'^(\d{4})', basename)
-    if match:
-        return match.group(1)
-    
-    # Pattern 2: contains 4 digits
-    match = re.search(r'(\d{4})', basename)
-    if match:
-        return match.group(1)
-    
-    return None
-
+ 
 
 def get_github_link(filepath, repo):
     """Generate GitHub blob link."""
@@ -68,8 +54,6 @@ def update_notion_for_file(filepath):
         print(f"  ⚠️  Could not extract problem ID from: {filepath}")
         return False
     
-    github_link = get_github_link(filepath, GITHUB_REPO)
-    
     try:
         results = notion.databases.query(
             database_id=DATABASE_ID,
@@ -108,7 +92,6 @@ def update_notion_for_file(filepath):
         
         problem_name = page["properties"]["Problem"]["title"][0]["text"]["content"]
         print(f"  ✅ {problem_id}: {problem_name}")
-        print(f"     🔗 {github_link}")
         return True
         
     except Exception as e:

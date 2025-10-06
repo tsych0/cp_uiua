@@ -6,7 +6,7 @@ echo "🔧 Installing Notion sync as $HOOK_TYPE hook..."
 
 cat > "$HOOK_PATH" << 'EOF'
 #!/bin/bash
-python3 sync_notion_hook.py
+python3 scripts/sync_notion_hook.py
 exit 0
 EOF
 
