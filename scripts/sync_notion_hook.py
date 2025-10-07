@@ -39,7 +39,6 @@ def get_staged_solution_files():
         )
         files = result.strip().split("\n")
         solution_exts = [".ua"]
-        print(files)
         return [f for f in files if f.startswith(SOLUTIONS_PATH) and any(f.endswith(ext) for ext in solution_exts)]
     except:
         return []

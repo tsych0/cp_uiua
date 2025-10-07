@@ -12,5 +12,6 @@ Solve ← (
 )
 
 ⍢(⍣(1Solve)0 ◌)±1
+# ⍥Solve⋕&sc
 
 # @code end
